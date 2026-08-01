@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Script to Video Planning Tool</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="app-header">
+    <h1>🎬 AI Script to Video Planning Tool</h1>
+    <p>Paste your script → auto-generate scenes → auto-fetch media → download everything as a ZIP</p>
+  </header>
+
+  <div class="header-user-bar">
+    <span id="welcomeText"></span>
+    <button id="logoutBtn" class="btn-logout">Log Out</button>
+  </div>
+
+  <main class="container">
+
+    <!-- ===================== SCRIPT INPUT SECTION ===================== -->
+    <section class="card">
+      <h2>1. Paste Your Script</h2>
+      <textarea id="scriptInput" placeholder="Paste your full script here. It will automatically be split into scenes based on paragraphs or sentences..."></textarea>
+      <div class="global-media-type">
+        <label class="global-media-label">Select Media Type (applies to all scenes):</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="globalMediaType" value="video" checked />
+            🎥 Video
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="globalMediaType" value="image" />
+            🖼️ Image
+          </label>
+        </div>
+      </div>
+      <div class="button-row">
+        <button id="generateBtn" class="btn btn-primary">✨ Generate Scenes</button>
+        <button id="generateAllBtn" class="btn btn-primary">⚡ Generate All (Search + Auto-Select All)</button>
+        <button id="clearAllBtn" class="btn btn-danger">🗑️ Clear All</button>
+      </div>
+      <span id="globalStatus" class="status-text"></span>
+    </section>
+
+    <!-- ===================== SCENES SECTION ===================== -->
+    <section class="scenes-section">
+      <h2 id="scenesHeading" style="display:none;">2. Scene Management</h2>
+      <div id="scenesContainer" class="scenes-grid"></div>
+    </section>
+
+    <!-- ===================== STORYBOARD SECTION ===================== -->
+    <section class="card storyboard-section">
+      <div class="storyboard-header">
+        <h2>3. Final Storyboard</h2>
+        <div class="button-row" style="margin-top:0;">
+          <button id="exportBtn" class="btn btn-secondary">⬇️ Export JSON</button>
+          <button id="downloadZipBtn" class="btn btn-primary">📦 Download All as ZIP (MP4/Images)</button>
+        </div>
+      </div>
+      <div id="storyboardContainer" class="storyboard-list">
+        <p class="empty-text">No scenes selected yet. Choose media for your scenes above to build your storyboard.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>Built with vanilla HTML, CSS &amp; JavaScript · Powered by the Pexels API &amp; JSZip</p>
+  </footer>
+
+  <!-- Auth: redirects to login.html if nobody is signed in -->
+  <script src="auth.js"></script>
+  <script>
+    const currentUser = requireAuth();
+    if (currentUser) {
+      document.getElementById("welcomeText").textContent = "👋 " + currentUser.username;
+      document.getElementById("logoutBtn").addEventListener("click", logoutUser);
+    }
+  </script>
+
+  <!-- JSZip library, used to bundle downloaded media into a single .zip file -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"></script>
+  <script src="script.js"></script>
+</body>
+</html>

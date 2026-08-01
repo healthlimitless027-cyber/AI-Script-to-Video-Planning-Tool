@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign Up · AI Script to Video Planning Tool</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="auth-body">
+
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>🎬 Create Your Account</h1>
+        <p>Sign up to start planning your videos</p>
+      </div>
+
+      <form id="signupForm" class="auth-form" novalidate>
+        <label class="auth-label" for="numberInput">Phone Number</label>
+        <input type="text" id="numberInput" placeholder="e.g. 03001234567" autocomplete="tel" />
+
+        <label class="auth-label" for="usernameInput">Username</label>
+        <input type="text" id="usernameInput" placeholder="Choose a username" autocomplete="username" />
+
+        <label class="auth-label" for="passwordInput">Password</label>
+        <input type="password" id="passwordInput" placeholder="At least 6 characters" autocomplete="new-password" />
+
+        <span id="authStatus" class="status-text"></span>
+
+        <button type="submit" class="btn btn-primary auth-submit">✨ Sign Up</button>
+      </form>
+
+      <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    const signupForm = document.getElementById("signupForm");
+    const authStatus = document.getElementById("authStatus");
+
+    signupForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const number = document.getElementById("numberInput").value;
+      const username = document.getElementById("usernameInput").value;
+      const password = document.getElementById("passwordInput").value;
+
+      const result = signupUser(number, username, password);
+      if (!result.ok) {
+        authStatus.textContent = "❌ " + result.error;
+        authStatus.className = "status-text error";
+        return;
+      }
+
+      authStatus.textContent = "✅ Account created! Redirecting to login...";
+      authStatus.className = "status-text ok";
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 900);
+    });
+  </script>
+</body>
+</html>

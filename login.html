@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Log In · AI Script to Video Planning Tool</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="auth-body">
+
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>🎬 Welcome Back</h1>
+        <p>Log in to continue planning your videos</p>
+      </div>
+
+      <form id="loginForm" class="auth-form" novalidate>
+        <label class="auth-label" for="numberInput">Phone Number</label>
+        <input type="text" id="numberInput" placeholder="e.g. 03001234567" autocomplete="tel" />
+
+        <label class="auth-label" for="passwordInput">Password</label>
+        <input type="password" id="passwordInput" placeholder="Your password" autocomplete="current-password" />
+
+        <span id="authStatus" class="status-text"></span>
+
+        <button type="submit" class="btn btn-primary auth-submit">🔓 Log In</button>
+      </form>
+
+      <p class="auth-switch">Don't have an account? <a href="signup.html">Sign up</a></p>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const authStatus = document.getElementById("authStatus");
+
+    // If already logged in, skip straight to the app
+    if (getCurrentUser()) {
+      window.location.href = "index.html";
+    }
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const number = document.getElementById("numberInput").value;
+      const password = document.getElementById("passwordInput").value;
+
+      const result = loginUser(number, password);
+      if (!result.ok) {
+        authStatus.textContent = "❌ " + result.error;
+        authStatus.className = "status-text error";
+        return;
+      }
+
+      authStatus.textContent = "✅ Logged in! Redirecting...";
+      authStatus.className = "status-text ok";
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 600);
+    });
+  </script>
+</body>
+</html>
